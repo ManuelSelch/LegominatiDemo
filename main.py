@@ -43,11 +43,14 @@ geschwindigkeit = 100
 # steers at 10*1.2 = 12 degrees per second.
 faktorP = 1.2
 faktorI = 0.2
+faktorD = -0.2
 
 i = 0
 old1 = farbsensor.reflection() - mittelwert
 old2 = farbsensor.reflection() - mittelwert
 old3 = farbsensor.reflection() - mittelwert
+
+last = farbsensor.reflection() - mittelwert
 
 
 ev3 = EV3Brick()
@@ -65,7 +68,11 @@ def run1():
         
 
         # Calculate the deviation from the threshold.
-        abweichung = farbsensor.reflection() * mittelwert  + faktorI * (old1 + old2 + old3)
+        p_regler = farbsensor.reflection() * mittelwert
+        i_regler =  faktorI * (old1 + old2 + old3)
+        d_regler =  faktorD * (farbsensor.reflection() - last)
+        last = arbsensor.reflection()
+        abweichung =  p_regler + i_regler
 
         # Calculate the turn rate.
         turn_rate = faktor * abweichung
