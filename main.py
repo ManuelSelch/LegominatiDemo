@@ -71,14 +71,11 @@ def run1():
         p_regler = farbsensor.reflection() * mittelwert
         i_regler =  faktorI * (old1 + old2 + old3)
         d_regler =  faktorD * (farbsensor.reflection() - last)
-        last = arbsensor.reflection()
-        abweichung =  p_regler + i_regler
-
-        # Calculate the turn rate.
-        turn_rate = faktor * abweichung
+        last = farbsensor.reflection()
+        abweichung =  p_regler + i_regler + d_regler
 
         # Set the drive base speed and turn rate.
-        robot.drive(geschwindigkeit, turn_rate)
+        robot.drive(geschwindigkeit, abweichung)
 
         # You can wait for a short time or do other things in this loop.
         wait(10)
