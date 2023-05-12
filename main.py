@@ -21,6 +21,8 @@ import time
 # Initialize the EV3 Brick.
 ev3 = EV3Brick()
 
+#test comment
+
 # Initialize the motors.
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
