@@ -12,9 +12,10 @@ https://education.lego.com/en-us/support/mindstorms-ev3/building-instructions#ro
 """
 
 from pybricks.ev3devices import Motor, ColorSensor
-from pybricks.parameters import Port
+from pybricks.parameters import Port, Button
 from pybricks.tools import wait
 from pybricks.robotics import DriveBase
+from pybricks.hubs import EV3Brick
 
 # Initialize the motors.
 left_motor = Motor(Port.B)
@@ -42,8 +43,13 @@ DRIVE_SPEED = 100
 # steers at 10*1.2 = 12 degrees per second.
 PROPORTIONAL_GAIN = 1.2
 
+ev3 = EV3Brick()
+
 # Start following the line endlessly.
 while True:
+    if Button.UP in ev3.buttons.pressed():
+        print("button up")
+        
     # Calculate the deviation from the threshold.
     deviation = line_sensor.reflection() - threshold
 
