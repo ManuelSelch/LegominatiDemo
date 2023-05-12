@@ -45,11 +45,29 @@ PROPORTIONAL_GAIN = 1.2
 
 ev3 = EV3Brick()
 
+def run1():
+    print("run 1")
+
+def run2():
+    print("run 2")
+
+def run3():
+    print("run 3")
+
+def run4():
+    print("run 4")
+
 # Start following the line endlessly.
 while True:
     if Button.UP in ev3.buttons.pressed():
-        print("button up")
-        
+        run1()
+    if Button.RIGHT in ev3.buttons.pressed():
+        run2()
+    if Button.DOWN in ev3.buttons.pressed():
+        run3()
+    if Button.LEFT in ev3.buttons.pressed():
+        run4()
+
     # Calculate the deviation from the threshold.
     deviation = line_sensor.reflection() - threshold
 
