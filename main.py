@@ -45,6 +45,7 @@ faktorP = 1.2
 faktorI = 0.2
 faktorD = -0.2
 
+global i, old1, old2, old3, last
 i = 0
 old1 = farbsensor.reflection() - mittelwert
 old2 = farbsensor.reflection() - mittelwert
@@ -56,9 +57,10 @@ last = farbsensor.reflection() - mittelwert
 ev3 = EV3Brick()
 
 def run1():
+    global i, old1, old2, old3, last
     print("run 1")
     while True:
-        i+=1
+        i = i+1
         if(i%3 == 0):
             old1 = farbsensor.reflection() - mittelwert
         if(i%6 == 0):
@@ -68,7 +70,7 @@ def run1():
         
 
         # Calculate the deviation from the threshold.
-        p_regler = farbsensor.reflection() * mittelwert
+        p_regler = farbsensor.reflection() - mittelwert
         i_regler =  faktorI * (old1 + old2 + old3)
         d_regler =  faktorD * (farbsensor.reflection() - last)
         last = farbsensor.reflection()
@@ -78,7 +80,7 @@ def run1():
         robot.drive(geschwindigkeit, abweichung)
 
         # You can wait for a short time or do other things in this loop.
-        wait(10)
+        #wait(10)
 
 
 def run2():
