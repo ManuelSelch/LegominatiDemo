@@ -47,18 +47,18 @@ ev3 = EV3Brick()
 
 def run1():
     print("run 1")
+    while True:
+        # Calculate the deviation from the threshold.
+        abweichung = Farbsensor.reflection() - mittelwert
 
-    # Calculate the deviation from the threshold.
-    abweichung = Farbsensor.reflection() - mittelwert
+        # Calculate the turn rate.
+        turn_rate = faktor * abweichung
 
-    # Calculate the turn rate.
-    turn_rate = faktor * abweichung
+        # Set the drive base speed and turn rate.
+        robot.drive(geschwindigkeit, turn_rate)
 
-    # Set the drive base speed and turn rate.
-    robot.drive(geschwindigkeit, turn_rate)
-
-    # You can wait for a short time or do other things in this loop.
-    wait(10)
+        # You can wait for a short time or do other things in this loop.
+        wait(10)
 
 
 def run2():
