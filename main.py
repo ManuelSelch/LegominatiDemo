@@ -22,7 +22,7 @@ left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 
 # Initialize the color sensor.
-Farbsensor = ColorSensor(Port.S1)
+farbsensor = ColorSensor(Port.S1)
 
 # Initialize the drive base.
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=104)
@@ -41,15 +41,31 @@ geschwindigkeit = 100
 
 # For example, if the light value deviates from the threshold by 10, the robot
 # steers at 10*1.2 = 12 degrees per second.
-faktor = 1.2
+faktorP = 1.2
+faktorI = 0.2
+
+i = 0
+old1 = farbsensor.reflection() - mittelwert
+old2 = farbsensor.reflection() - mittelwert
+old3 = farbsensor.reflection() - mittelwert
+
 
 ev3 = EV3Brick()
 
 def run1():
     print("run 1")
     while True:
+        i+=1
+        if(i%3 == 0):
+            old1 = farbsensor.reflection() - mittelwert
+        if(i%6 == 0):
+            old2 = farbsensor.reflection() - mittelwert
+        if(i%9 == 0):
+            old3 = farbsensor.reflection() - mittelwert
+        
+
         # Calculate the deviation from the threshold.
-        abweichung = Farbsensor.reflection() - mittelwert
+        abweichung = farbsensor.reflection() * mittelwert  + faktorI * (old1 + old2 + old3)
 
         # Calculate the turn rate.
         turn_rate = faktor * abweichung
