@@ -53,6 +53,7 @@ old3 = farbsensor.reflection() - mittelwert
 
 last = farbsensor.reflection() - mittelwert
 
+#comment
 
 ev3 = EV3Brick()
 
