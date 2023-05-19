@@ -69,11 +69,11 @@ def pid_regler():
 
         integral = integral + error
         derivative = error - last_error
-        last_error = error
 
-        turn = faktorP * error + faktorI * integral + faktorD * derivative
-
+        turn_rate = faktorP * error + faktorI * integral + faktorD * derivative
         robot.drive(geschwindigkeit, turn_rate)
+
+        last_error = error
         wait(10)
 
 def run1():
@@ -107,6 +107,7 @@ def run2():
     print("run 2")
 
 def run3():
+    pid_regler()
     print("run 3")
 
 def run4():
