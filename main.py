@@ -55,6 +55,25 @@ last = farbsensor.reflection() - mittelwert
 
 ev3 = EV3Brick()
 
+def pid_regler():
+    #p = proportional
+    #i = integral
+    #d = derivative: future error based on past error
+    last_error = 0
+    integral = 0
+    while True:
+        light_sensor_value = farbsensor.reflection()
+        error = light_sensor_value - mittelwert
+
+        integral = integral + error
+        derivative = error - last_error
+        last_error = error
+
+        turn = faktorP * error + faktorI * integral + faktorD * derivative
+
+        robot.drive(geschwindigkeit, turn_rate)
+        wait(10)
+
 def run1():
     print("run 1")
     while True:
@@ -68,7 +87,7 @@ def run1():
         
 
         # Calculate the deviation from the threshold.
-        p_regler = farbsensor.reflection() * mittelwert
+        p_regler = farbsensor.reflection() - mittelwert
         i_regler =  faktorI * (old1 + old2 + old3)
         d_regler =  faktorD * (farbsensor.reflection() - last)
         last = arbsensor.reflection()
