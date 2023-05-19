@@ -45,6 +45,7 @@ faktorP = 1.2
 faktorI = 0.2
 faktorD = -0.2
 
+global i, old1, old2, old3, last
 i = 0
 old1 = farbsensor.reflection() - mittelwert
 old2 = farbsensor.reflection() - mittelwert
@@ -75,9 +76,10 @@ def pid_regler():
         wait(10)
 
 def run1():
+    global i, old1, old2, old3, last
     print("run 1")
     while True:
-        i+=1
+        i = i+1
         if(i%3 == 0):
             old1 = farbsensor.reflection() - mittelwert
         if(i%6 == 0):
@@ -90,17 +92,14 @@ def run1():
         p_regler = farbsensor.reflection() - mittelwert
         i_regler =  faktorI * (old1 + old2 + old3)
         d_regler =  faktorD * (farbsensor.reflection() - last)
-        last = arbsensor.reflection()
-        abweichung =  p_regler + i_regler
-
-        # Calculate the turn rate.
-        turn_rate = faktor * abweichung
+        last = farbsensor.reflection()
+        abweichung =  p_regler + i_regler + d_regler
 
         # Set the drive base speed and turn rate.
-        robot.drive(geschwindigkeit, turn_rate)
+        robot.drive(geschwindigkeit, abweichung)
 
         # You can wait for a short time or do other things in this loop.
-        wait(10)
+        #wait(10)
 
 
 def run2():
