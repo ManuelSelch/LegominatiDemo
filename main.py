@@ -22,7 +22,7 @@ left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 
 # Initialize the color sensor.
-farbsensor = ColorSensor(Port.S1)
+farbsensor = ColorSensor(Port.S4)
 
 # Initialize the drive base.
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=104)
@@ -33,7 +33,8 @@ weiss = 85
 mittelwert = (schwarz + weiss) / 2
 
 # Set the drive speed at 100 millimeters per second.
-geschwindigkeit = 100
+speedFaktor = 8
+geschwindigkeit = -10 * speedFaktor
 
 # Set the gain of the proportional line controller. This means that for every
 # percentage point of light deviating from the threshold, we set the turn
@@ -41,9 +42,9 @@ geschwindigkeit = 100
 
 # For example, if the light value deviates from the threshold by 10, the robot
 # steers at 10*1.2 = 12 degrees per second.
-faktorP = 1.2
-faktorI = 0.2
-faktorD = -0.2
+faktorP = 0.05 * speedFaktor
+faktorI = 0.01 * speedFaktor
+faktorD = -0.5 * speedFaktor
 
 global i, old1, old2, old3, last
 i = 0
@@ -90,11 +91,11 @@ def run1():
         
 
         # Calculate the deviation from the threshold.
-        p_regler = farbsensor.reflection() - mittelwert
+        p_regler = faktorP * (farbsensor.reflection() - mittelwert)
         i_regler =  faktorI * (old1 + old2 + old3)
         d_regler =  faktorD * (farbsensor.reflection() - last)
         last = farbsensor.reflection()
-        abweichung =  p_regler + i_regler + d_regler
+        abweichung =  p_regler + d_regler # + i_regler 
 
         # Set the drive base speed and turn rate.
         robot.drive(geschwindigkeit, abweichung)
