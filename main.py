@@ -107,7 +107,8 @@ def run1():
 def run2():
     print("run 2")
 
-    robot.drive(100,200)
+    robot.straight(300)
+    robot.stop()
     
 def run3():
     pid_regler()
