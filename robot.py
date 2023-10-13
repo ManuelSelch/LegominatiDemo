@@ -6,8 +6,8 @@ from pybricks.parameters import Port, Button
 from pybricks.robotics import DriveBase
 from pybricks.hubs import EV3Brick
 
-
 class Robot():
+    #region parameters
     # Initialize the motors.
     left_motor = Motor(Port.B)
     right_motor = Motor(Port.C)
@@ -38,8 +38,9 @@ class Robot():
     faktorD = -0.5 * speedFaktor
 
     ev3 = EV3Brick()
+    #endregion
 
-   
+    #region pid regler
     def pid_regler(self):
         #p = proportional
         #i = integral
@@ -57,5 +58,5 @@ class Robot():
             self.robot.drive(self.geschwindigkeit, turn_rate)
 
             last_error = error
-
+    #endregion
         

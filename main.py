@@ -6,4 +6,7 @@ from robot import Robot
 class Main():
     def __init__(self):
         robot = Robot()
-        pass
+
+        while True:
+            robot.pid_regler()
+            wait(10)
